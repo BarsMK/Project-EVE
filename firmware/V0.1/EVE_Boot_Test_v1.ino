@@ -246,17 +246,31 @@ void distanceScreen() {
     display.setCursor(40,15);
   display.println("EVE SCAN");
   display.drawLine(13,27,110,27,WHITE);
-display.setCursor(20, 35);
+display.setCursor(20, 32);
 display.println("Angle: ");
-display.setCursor(73, 35);
+display.setCursor(63, 32);
 display.println(angle);
 
-  display.setCursor(20,45);
+  display.setCursor(20,41);
     display.println("Distance: ");
 
-  display.setCursor(73,45);   
+  display.setCursor(73,41);   
   display.println(distance);
-  display.display();
+
+ if (distance <= 50) {
+
+  display.setCursor(45,50);
+display.println("OBJECT");
+ }
+
+  else  {
+
+  display.setCursor(45,50);
+display.println("CLEAR");
+
+}
+
+display.display();
 
 }
 
