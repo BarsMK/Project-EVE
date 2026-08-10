@@ -15,6 +15,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1); //starts the O
 
 long duration;
 float distance; 
+float distancemem = 200;
+int anglemem = 30;
 int mode = 0;
 int menuChoice = 1;
 int angle = 30;
@@ -243,32 +245,33 @@ void distanceScreen() {
 
   display.clearDisplay();
   display.drawRect(12,2,100,60,WHITE);
-    display.setCursor(40,15);
+    display.setCursor(40,10);
   display.println("EVE SCAN");
-  display.drawLine(13,27,110,27,WHITE);
-display.setCursor(20, 32);
+  display.drawLine(13,20,110,20,WHITE);
+display.setCursor(20, 24);
 display.println("Angle: ");
-display.setCursor(63, 32);
+display.setCursor(63, 24);
 display.println(angle);
 
-  display.setCursor(20,41);
+  display.setCursor(20,32);
     display.println("Distance: ");
 
-  display.setCursor(73,41);   
+  display.setCursor(73,32);   
   display.println(distance);
 
- if (distance <= 50) {
+  display.setCursor(20, 40);
+  display.println("Closest: ");
 
-  display.setCursor(45,50);
-display.println("OBJECT");
- }
+  display.setCursor(73, 40);
+  display.println(distancemem);
 
-  else  {
+    display.setCursor(20, 48);
+  display.println("At: ");
 
-  display.setCursor(45,50);
-display.println("CLEAR");
+    display.setCursor(73, 48);
+  display.println(anglemem);
 
-}
+
 
 display.display();
 
@@ -350,6 +353,16 @@ if (millis() - lastScanTime >= 500) {
 scanServo.write(angle);
 
 readDistance();
+
+if (distance < distancemem) {
+
+distancemem = distance;
+anglemem = angle;
+
+}
+
+
+
 distanceScreen();
 
 if (angle == 150) {
@@ -361,6 +374,8 @@ scanDirection = -1;
 if (angle == 30) {
 
 scanDirection = 1; 
+distancemem = 200;
+anglemem = 30;
 
 }
 
@@ -418,7 +433,7 @@ menuChoice = 1;
 
 
 }
-delay(1000);
+delay(500);
 }
 
 }
