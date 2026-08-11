@@ -22,6 +22,8 @@ int menuChoice = 1;
 int angle = 30;
 unsigned long lastScanTime = 0;
 int scanDirection = 1;
+String objectStatus;
+bool scanComplete = false;
 
 Servo scanServo;
 
@@ -234,11 +236,20 @@ digitalWrite(TRIG_PIN, HIGH);
 delayMicroseconds(10);
 digitalWrite(TRIG_PIN, LOW);
 
-duration = pulseIn(ECHO_PIN, HIGH);
+duration = pulseIn(ECHO_PIN, HIGH, 30000);
+
+if (duration > 0) {
+
 distance = duration * 0.034 / 2;
 
 Serial.println(duration);
 Serial.println(distance);
+}
+else {
+
+  distance = 0;
+}
+
  }
 
 void distanceScreen() {
@@ -265,12 +276,12 @@ display.println(angle);
   display.setCursor(73, 40);
   display.println(distancemem);
 
-    display.setCursor(20, 48);
-  display.println("At: ");
+display.setCursor(20, 50);
+display.println("STATUS: ");
 
-    display.setCursor(73, 48);
-  display.println(anglemem);
 
+display.setCursor(73, 50);
+display.println(objectStatus);
 
 
 display.display();
@@ -319,9 +330,12 @@ display.display();
 void openSelect() {
 
 if (menuChoice == 1) {
-
 mode = 1;
-  
+scanComplete = false;
+distancemem = 200;
+anglemem = 30;
+angle = 30;
+scanDirection = 1;
 }
 
 
@@ -338,6 +352,38 @@ mode = 2;
 }
 
 
+void completedScanScreen() {
+display.clearDisplay();
+
+display.setTextColor(WHITE);
+display.setTextSize(1);
+
+display.drawRect(12,2,100,60,WHITE);
+
+display.setCursor(20, 10);
+display.println("SCAN COMPLETE");
+
+  display.drawLine(13,20,110,20,WHITE);
+
+  display.setCursor(20, 30);
+  display.println("Closest: ");
+
+    display.setCursor(70, 30);
+  display.println(distancemem);
+
+  
+  display.setCursor(20, 40);
+  display.println("Angle: ");
+
+    display.setCursor(70, 40);
+  display.println(anglemem);
+
+    display.setCursor(25, 50);
+  display.println("TARGET FOUND");
+
+  display.display();
+}
+
 
 void runMode() {
 
@@ -348,39 +394,67 @@ if (mode == 0) {
 
 if (mode == 1) {
 
-if (millis() - lastScanTime >= 500) {
+if (millis() - lastScanTime >= 350) {
+
+if (!scanComplete) {
+
+
 
 scanServo.write(angle);
 
 readDistance();
 
+if (distance > 100) {
+objectStatus = "CLEAR";
+
+}
+
+else if (distance > 40) {
+objectStatus = "FAR";
+
+}
+
+else if (distance > 20) {
+objectStatus = "NEAR";
+
+}
+
+else {
+objectStatus = "CLOSE";
+
+}
+
+if (duration > 0) {
 if (distance < distancemem) {
 
 distancemem = distance;
 anglemem = angle;
 
 }
-
-
-
-distanceScreen();
+}
 
 if (angle == 150) {
-
 scanDirection = -1;
+scanComplete = true;
+completedScanScreen();
 
 }
+
+else {
+distanceScreen();
+}
+
 
 if (angle == 30) {
 
 scanDirection = 1; 
-distancemem = 200;
-anglemem = 30;
 
 }
 
+
 angle += (10 * scanDirection);
   lastScanTime = millis();
+}
 }
 
 
@@ -403,6 +477,8 @@ if (digitalRead(SELECT_BUTTON) == LOW) {
   openSelect();
 
 }
+
+
 
 else if (mode == 1) {
   mode = 0;
