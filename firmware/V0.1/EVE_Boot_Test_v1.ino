@@ -20,11 +20,15 @@ int anglemem = 30;
 int mode = 0;
 int menuChoice = 1;
 int angle = 30;
+int centerX = 64;
+int centerY = 58;
 unsigned long lastScanTime = 0;
 int scanDirection = 1;
 String objectStatus;
 bool scanComplete = false;
-
+int radarRadius = 30;
+int maxRadarDistance = 50;
+float scanDistances[13];
 Servo scanServo;
 
 // Shows EVE startup screen
@@ -336,6 +340,11 @@ distancemem = 200;
 anglemem = 30;
 angle = 30;
 scanDirection = 1;
+for (int i = 0; i < 13; i++) {
+scanDistances[i] = 0;
+
+}
+
 }
 
 
@@ -398,11 +407,15 @@ if (millis() - lastScanTime >= 350) {
 
 if (!scanComplete) {
 
-
-
 scanServo.write(angle);
 
 readDistance();
+
+int scanIndex = (angle - 30) / 10;
+
+if (duration > 0) {
+scanDistances[scanIndex] = distance;
+}
 
 if (distance > 100) {
 objectStatus = "CLEAR";
@@ -441,7 +454,7 @@ completedScanScreen();
 }
 
 else {
-distanceScreen();
+radarScreen();
 }
 
 
@@ -512,6 +525,69 @@ menuChoice = 1;
 delay(500);
 }
 
+}
+
+void radarScreen() {
+display.clearDisplay();
+
+display.setTextSize(1);
+display.setTextColor(WHITE);
+
+display.drawCircle(centerX, centerY, radarRadius, WHITE);
+float radarDistance = (distance / maxRadarDistance) * radarRadius;
+
+float radians = angle * PI / 180.0;
+int objectX;
+int objectY;
+
+int lineX;
+int lineY;
+
+lineX = centerX + radarRadius * cos(radians);
+lineY = centerY - radarRadius * sin(radians);
+
+display.drawLine(centerX, centerY, lineX, lineY, WHITE);
+
+if (duration > 0) {
+
+  objectX = centerX + radarDistance * cos(radians);
+objectY = centerY - radarDistance * sin(radians);
+
+display.fillCircle(objectX, objectY, 1, WHITE);
+}
+
+for (int i = 0; i < 13; i++) {
+int storedAngle = i * 10 + 30;
+float storedDistance = scanDistances[i];
+
+float storedRadians = storedAngle * PI / 180.0;
+float storedRadarDistance = (storedDistance / maxRadarDistance) * (radarRadius - 3);
+int storedX;
+int storedY;
+
+storedX = centerX + storedRadarDistance * cos(storedRadians);
+storedY = centerY - storedRadarDistance * sin(storedRadians);
+
+if(storedDistance > 0) {
+ int dotSize;
+
+if (storedDistance > 40) {
+  dotSize = 1;
+}
+else if (storedDistance > 20) {
+  dotSize = 2;
+}
+
+else {
+  dotSize = 3;
+}
+
+display.fillCircle(storedX, storedY, dotSize, WHITE);
+
+}
+}
+
+display.display();
 }
 
 
