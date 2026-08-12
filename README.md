@@ -20,7 +20,7 @@ EVE currently uses an ESP32 to control an OLED display, ultrasonic sensor, servo
 *  Closest-object detection
 *  Radar-style visualization
 *  Persistent object detections
-*  Distance-based detection display
+*  Distance-based radar detection sizes
 
 ## Hardware
 
