@@ -1,0 +1,9 @@
+# Arduino
+*.hex
+*.elf
+*.bin
+*.eep
+*.map
+
+# Build folders
+build/
