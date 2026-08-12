@@ -2,6 +2,8 @@
 
 An ESP32-powered smart assistant device combining sensors, programming, displays, servo control, and automation into one interactive electronics system.
 
+<img width="4032" height="3024" alt="IMG_8966" src="https://github.com/user-attachments/assets/983e6199-d28e-4b51-a7a5-cc6bc97029b7" />
+
 ## What is EVE?
 
 Project EVE is a hardware and software project I'm building to learn more about embedded programming, electronics, sensors, and engineering.
