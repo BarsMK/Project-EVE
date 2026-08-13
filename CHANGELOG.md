@@ -1,5 +1,26 @@
 # Changelog
 
+##  Radar Visualization — August 12, 2026
+
+### Added
+- 1° servo scanning from 30° to 150°
+- Radar-style OLED visualization
+- Timestamped scan data
+- Fading detection points
+- Larger radar display
+- Radar arc matching the scan range
+
+### Improved
+- Radar distance scaling
+- Detection-point display
+- Scan-memory reset between scans
+
+### Next
+- Improve object separation
+- Develop target-lock functionality
+
+
+
 ## Radar System — August 11, 2026
 
 ### Added
