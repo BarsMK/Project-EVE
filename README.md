@@ -19,8 +19,10 @@ EVE currently uses an ESP32 to control an OLED display, ultrasonic sensor, servo
 *  Angle tracking
 *  Closest-object detection
 *  Radar-style visualization
-*  Persistent object detections
+*  fading radar detections
 *  Distance-based radar detection sizes
+*  1° scanning
+*  30°-150° scanning range
 
 ## Hardware
 
@@ -51,9 +53,9 @@ Servo + Ultrasonic Sensor
 
 EVE is being developed in stages, with each stage adding another part of the system.
 
-**Current:** Radar scanning and visualization
+**Current:** Radar scanning and visualization with 1° resolution and fading detections
 
-**Next:** Target lock, scan statistics, and further interface improvements
+**Next:** Separate-object detection and target lock
 
 ## Future Ideas
 
@@ -74,5 +76,9 @@ Built using:
 * Adafruit GFX
 * Adafruit SSD1306
 * ESP32Servo
+
+## AI Usage
+
+AI tools were used as a development assistant during Project EVE. I used AI to help explain programming concepts, troubleshoot Arduino/ESP32 errors, and improve parts of the radar visualization. The hardware design, testing, debugging, implementation decisions, and final integration were done by me.
 
 This project is a work in progress, and the repository will be updated as EVE develops.
