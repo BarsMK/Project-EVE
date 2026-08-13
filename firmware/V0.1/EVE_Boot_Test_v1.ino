@@ -21,14 +21,17 @@ int mode = 0;
 int menuChoice = 1;
 int angle = 30;
 int centerX = 64;
-int centerY = 58;
+int centerY = 60;
 unsigned long lastScanTime = 0;
 int scanDirection = 1;
 String objectStatus;
 bool scanComplete = false;
-int radarRadius = 30;
+bool insideObject = false;
+int objectStartAngle = 0;
+int radarRadius = 55;
 int maxRadarDistance = 50;
-float scanDistances[13];
+float scanDistances[121];
+unsigned long scanTimes[121];
 Servo scanServo;
 
 // Shows EVE startup screen
@@ -340,8 +343,9 @@ distancemem = 200;
 anglemem = 30;
 angle = 30;
 scanDirection = 1;
-for (int i = 0; i < 13; i++) {
+for (int i = 0; i < 121; i++) {
 scanDistances[i] = 0;
+scanTimes[i] = 0;
 
 }
 
@@ -403,7 +407,7 @@ if (mode == 0) {
 
 if (mode == 1) {
 
-if (millis() - lastScanTime >= 350) {
+if (millis() - lastScanTime >= 20) {
 
 if (!scanComplete) {
 
@@ -411,10 +415,11 @@ scanServo.write(angle);
 
 readDistance();
 
-int scanIndex = (angle - 30) / 10;
+int scanIndex = angle - 30;
 
 if (duration > 0) {
 scanDistances[scanIndex] = distance;
+scanTimes[scanIndex] = millis();
 }
 
 if (distance > 100) {
@@ -465,7 +470,7 @@ scanDirection = 1;
 }
 
 
-angle += (10 * scanDirection);
+angle += (1 * scanDirection);
   lastScanTime = millis();
 }
 }
@@ -533,7 +538,17 @@ display.clearDisplay();
 display.setTextSize(1);
 display.setTextColor(WHITE);
 
-display.drawCircle(centerX, centerY, radarRadius, WHITE);
+for (int a = 0; a <= 150; a += 2) {
+float r = a * PI / 180.0;
+
+int arcX = centerX + radarRadius * cos(r);
+int arcY = centerY - radarRadius * sin(r);
+
+display.drawPixel(arcX, arcY, WHITE);
+}
+display.drawLine(0, centerY, 127, centerY, WHITE);
+display.drawLine(centerX, 0, centerX, 63, WHITE);
+
 float radarDistance = (distance / maxRadarDistance) * radarRadius;
 
 float radians = angle * PI / 180.0;
@@ -556,9 +571,11 @@ objectY = centerY - radarDistance * sin(radians);
 display.fillCircle(objectX, objectY, 1, WHITE);
 }
 
-for (int i = 0; i < 13; i++) {
-int storedAngle = i * 10 + 30;
+for (int i = 0; i < 121; i++) {
+
+int storedAngle = i + 30;
 float storedDistance = scanDistances[i];
+unsigned long age = millis() - scanTimes[i];
 
 float storedRadians = storedAngle * PI / 180.0;
 float storedRadarDistance = (storedDistance / maxRadarDistance) * (radarRadius - 3);
@@ -568,29 +585,65 @@ int storedY;
 storedX = centerX + storedRadarDistance * cos(storedRadians);
 storedY = centerY - storedRadarDistance * sin(storedRadians);
 
-if(storedDistance > 0) {
- int dotSize;
-
-if (storedDistance > 40) {
-  dotSize = 1;
-}
-else if (storedDistance > 20) {
-  dotSize = 2;
-}
-
-else {
-  dotSize = 3;
-}
+if (storedDistance > 5 && storedDistance <= 50 && age < 2500) {
+ int dotSize = 1;
 
 display.fillCircle(storedX, storedY, dotSize, WHITE);
 
+}
+
+for (int i = 0; i < 120; i++) {
+float currentDistance = scanDistances[i];
+float nextDistance = scanDistances[i + 1];
+if (currentDistance > 0 && nextDistance > 0) {
+
+float distanceDifference =
+  abs(currentDistance - nextDistance);
+
+if (distanceDifference >= 10) {
+
+  if (nextDistance < currentDistance && !insideObject) {
+
+insideObject = true;
+
+objectStartAngle = i + 30;
+}
+}
+
+if (nextDistance > currentDistance && insideObject) {
+insideObject = false;
+
+int objectEndAngle = i + 30;
+
+int objectCenterAngle = 
+  (objectStartAngle + objectEndAngle) / 2;
+
+  float objectDistance = scanDistances[objectCenterAngle - 30];
+
+  float objectRadians = objectCenterAngle * PI / 180.0;
+
+  float objectRadarDistance = 
+    (objectDistance / maxRadarDistance) * radarRadius;
+
+  int targetX = 
+    centerX + objectRadarDistance * cos(objectRadians);
+
+  int targetY = 
+    centerY - objectRadarDistance * sin(objectRadians);
+
+
+display.fillCircle(targetX, targetY, 3, WHITE);
+
+
+
+}
+
+}
 }
 }
 
 display.display();
 }
-
-
 
 
 // Starts EVE
