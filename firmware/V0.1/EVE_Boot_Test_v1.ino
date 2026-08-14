@@ -119,6 +119,8 @@ void bootAnimation() {
 
 // Shows the status of EVE 
 void statusScreen() {
+readDistance();
+
  display.clearDisplay();
 
 display.setTextColor(WHITE);
@@ -127,19 +129,48 @@ display.setTextColor(WHITE);
   display.drawRect(12,2,100,62,WHITE);
 
 
-  display.setCursor(30,15);
+  display.setCursor(30,7);
 display.println("EVE STATUS");
 
-display.drawLine(13,27,110,27,WHITE);
+display.drawLine(13,18,110,18,WHITE);
 
- display.setCursor(20,32);
+ display.setCursor(15,21);
  display.println("SYS: ONLINE");
 
- display.setCursor(20,42);
- display.println("SERVO: READY");
+ display.setCursor(15,29);
+ display.print("SERVO: ");
 
-display.setCursor(20,52);
- display.println("SONAR: READY");
+ display.setCursor(55, 29);
+ display.print(angle);
+
+display.setCursor(75, 29);
+display.println((char)247);
+
+display.setCursor(15,38);
+ display.println("SONAR: ");
+
+ display.setCursor(55, 38);
+ display.print(distance, 1);
+ display.println("cm");
+
+ display.setCursor(15, 46);
+ display.print("TARGET: ");
+
+ display.setCursor(60, 46);
+ display.print(distancemem, 1);
+
+ display.setCursor(80, 46);
+ display.println("cm");
+
+display.setCursor(15, 55);
+display.println("ANGLE: ");
+
+display.setCursor(55, 55);
+display.println(anglemem);
+
+display.setCursor(72, 55);
+display.println((char)247);
+
 
  display.display();
 
