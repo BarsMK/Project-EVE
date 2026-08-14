@@ -1,5 +1,26 @@
 # Changelog
 
+## Status Screen Improvements — August 13, 2026
+
+### Added
+
+- Live ultrasonic distance readings on the status screen
+- Servo angle display
+- Closest-target distance display
+- Closest-target angle display
+
+### Improved
+
+- Status screen layout and spacing
+- System monitoring information
+- Status display testing and readability
+
+### Next
+
+- Improve object separation
+- Develop target-lock functionality
+
+
 ##  Radar Visualization — August 12, 2026
 
 ### Added
