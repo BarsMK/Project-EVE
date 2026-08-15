@@ -673,6 +673,23 @@ display.fillCircle(targetX, targetY, 3, WHITE);
 }
 }
 
+if (distancemem < 200) {
+
+float targetRadians = anglemem * PI / 180.0;
+
+float targetRadarDistance =
+ (distancemem / maxRadarDistance) * radarRadius;
+
+int savedTargetX = 
+  centerX + targetRadarDistance * cos(targetRadians);
+
+int savedTargetY =
+  centerY - targetRadarDistance * sin(targetRadians);
+
+  display.fillCircle(savedTargetX, savedTargetY, 3, WHITE);
+
+}
+
 display.display();
 }
 
