@@ -1,5 +1,29 @@
 # Changelog
 
+## Target Lock System — August 15, 2026
+
+### Added
+
+- Target-lock system for the closest detected object
+- Automatic servo return to the saved target angle
+- Dedicated OLED target-lock screen
+- Target distance and angle display
+- Active lock-status indicator
+
+### Improved
+
+- Scan completion state handling
+- Saved target visualization on the radar
+- Transition from radar scanning to target-lock mode
+
+### Next
+
+- Wi-Fi connectivity
+- Final testing and polish
+- Final project documentation
+
+
+
 ## Target Detection — August 14, 2026
 
 ### Added
