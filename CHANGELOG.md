@@ -1,5 +1,26 @@
 # Changelog
 
+## Target Detection — August 14, 2026
+
+### Added
+
+- Saved closest-target radar marker
+- Target marker based on saved distance and angle
+- Larger target visualization for easier identification
+
+### Improved
+
+- Target detection verification
+- Radar target visibility
+- Connection between saved target data and radar position
+
+### Next
+
+- Develop target-lock functionality
+- Add Wi-Fi connectivity
+- Improve EVE's target tracking
+
+
 ## Status Screen Improvements — August 13, 2026
 
 ### Added
