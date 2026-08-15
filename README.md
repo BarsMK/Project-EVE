@@ -31,6 +31,7 @@ EVE currently uses an ESP32 to control an OLED display, ultrasonic sensor, servo
 - Saved target visualization
 - Target-lock system
 - Automatic servo return to saved target angle
+- Target distance and angle tracking
 - OLED target-lock interface
 
 ## Hardware
@@ -70,10 +71,9 @@ EVE is being developed in stages, with each stage adding another part of the sys
 
 - Scan statistics
 - Improved radar graphics
-- Wi-Fi connectivity
-- Web dashboard
 - Additional sensors
 - More advanced assistant features
+- Expanded assistant capabilities
 
 ## Development
 
@@ -87,6 +87,6 @@ Built using:
 
 ## AI Usage
 
-AI tools were used as a development assistant during Project EVE. I used AI to help explain programming concepts, troubleshoot Arduino/ESP32 errors, and improve parts of the radar visualization. The hardware design, testing, debugging, implementation decisions, and final integration were done by me.
+AI was used as a learning and debugging tool during Project EVE. I used it to help understand some programming concepts, and troubleshoot errors. The hardware, code, design decisions, testing, debugging, feature development, and final integration were done by me.
 
 This project is a work in progress, and the repository will be updated as EVE develops.
