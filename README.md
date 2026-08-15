@@ -24,6 +24,7 @@ EVE currently uses an ESP32 to control an OLED display, ultrasonic sensor, servo
 *  1° scanning
 *  30°-150° scanning range
 *  Live system status monitoring
+*  Saved target visualization
 
 ## Hardware
 
@@ -54,7 +55,7 @@ Servo + Ultrasonic Sensor
 
 EVE is being developed in stages, with each stage adding another part of the system.
 
-**Current:** Radar scanning and visualization with 1° resolution, fading detections, and system status monitoring
+**Current:** Radar scanning and visualization with 1° resolution, fading detections, saved target visualization, and system status monitoring
 
 **Next:** Separate-object detection and target lock
 
