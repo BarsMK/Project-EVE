@@ -159,7 +159,7 @@ display.setCursor(15,38);
  display.setCursor(60, 46);
  display.print(distancemem, 1);
 
- display.setCursor(80, 46);
+ display.setCursor(83, 46);
  display.println("cm");
 
 display.setCursor(15, 55);
@@ -175,6 +175,42 @@ display.println((char)247);
  display.display();
 
 }
+
+
+void targetLockScreen() {
+
+display.clearDisplay();
+
+display.setTextColor(WHITE);
+display.setTextSize(1);
+
+  display.drawRect(12,2,100,62,WHITE);
+
+display.setCursor(25, 8);
+display.println("TARGET LOCKED");
+
+display.drawLine(15,20,112,20, WHITE);
+
+display.setCursor(20, 23);
+display.print("DIST: ");
+display.print(distancemem, 1);
+display.println(" cm");
+
+display.setCursor(20, 33);
+display.print("ANGLE: ");
+display.print(anglemem);
+display.println((char)247);
+
+display.setCursor(20, 43);
+display.print("LOCK: ");
+display.println("ACTIVE");
+
+display.setCursor(40, 53);
+display.print("[TARGET]");
+
+display.display();
+}
+
 // Shows that EVE is scanning
 void scanScreen() {
  display.clearDisplay();
@@ -485,8 +521,9 @@ anglemem = angle;
 if (angle == 150) {
 scanDirection = -1;
 scanComplete = true;
+scanServo.write(anglemem);
 completedScanScreen();
-
+delay(2000);
 }
 
 else {
@@ -504,6 +541,12 @@ scanDirection = 1;
 angle += (1 * scanDirection);
   lastScanTime = millis();
 }
+
+else {
+targetLockScreen();
+
+}
+
 }
 
 
