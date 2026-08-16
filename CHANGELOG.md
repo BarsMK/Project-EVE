@@ -1,6 +1,6 @@
 # Changelog
 
-## Target Lock System — August 15, 2026
+## Target Lock & Wi-Fi System — August 15, 2026
 
 ### Added
 
@@ -9,19 +9,31 @@
 - Dedicated OLED target-lock screen
 - Target distance and angle display
 - Active lock-status indicator
+- Dedicated rescan button
+- Scan reset functionality
+- ESP32 Wi-Fi connectivity
+- Initial ESP32 web server
+- Browser connection to EVE
+- Basic EVE web page
 
 ### Improved
 
 - Scan completion state handling
 - Saved target visualization on the radar
 - Transition from radar scanning to target-lock mode
+- Rescan workflow and scan-state reset
+- Hardware wiring organization and overall layout
+- System integration between the ESP32, sensors, servo, OLED, and buttons
 
 ### Next
 
-- Wi-Fi connectivity
-- Final testing and polish
+- EVE web dashboard
+- Live sensor and target data on the webpage
+- Browser-based radar visualization
+- Scan statistics
+- Additional web controls
+- Final testing and project polish
 - Final project documentation
-
 
 
 ## Target Detection — August 14, 2026
