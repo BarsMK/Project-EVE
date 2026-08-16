@@ -2,9 +2,15 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <ESP32Servo.h>
+#include <WiFi.h>
+#include <WebServer.h>
 
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
+
+const char* ssid = "WIFI_NAME";
+const char* password = "WIFI_PASSWORD"; 
+
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1); //starts the OLED up
 
 #define TRIG_PIN 5
@@ -12,6 +18,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1); //starts the O
 #define SELECT_BUTTON 27
 #define SERVO_PIN 13
 #define MOVE_BUTTON 26
+#define RESCAN_BUTTON 23
 
 long duration;
 float distance; 
@@ -33,6 +40,7 @@ int maxRadarDistance = 50;
 float scanDistances[121];
 unsigned long scanTimes[121];
 Servo scanServo;
+WebServer webServer(80);
 
 // Shows EVE startup screen
 // bootScreen is to simplify the code so it doesn't all jumble up and be a very large capacity, same for statusScreen and scanScreen
@@ -316,8 +324,8 @@ if (duration > 0) {
 
 distance = duration * 0.034 / 2;
 
-Serial.println(duration);
-Serial.println(distance);
+// Serial.println(duration);
+// Serial.println(distance);
 }
 else {
 
@@ -604,6 +612,26 @@ menuChoice = 1;
 delay(500);
 }
 
+if (digitalRead(RESCAN_BUTTON) == LOW) {
+
+scanComplete = false;
+distancemem = 200;
+anglemem = 30;
+angle = 30;
+scanDirection = 1;
+insideObject = false;
+
+for (int i = 0; i < 121; i++) {
+  scanDistances[i] = 0;
+  scanTimes[i] = 0;
+
+
+}
+
+scanServo.write(angle);
+
+}
+
 }
 
 void radarScreen() {
@@ -736,6 +764,29 @@ int savedTargetY =
 display.display();
 }
 
+void connectWiFi() {
+WiFi.begin(ssid, password);
+
+while (WiFi.status() != WL_CONNECTED) {
+  Serial.print(".");
+  delay(500);
+
+}
+Serial.println("WiFi connected");
+
+Serial.println(WiFi.localIP());
+
+webServer.on("/", handleRoot);
+webServer.begin();
+
+}
+
+void handleRoot() {
+
+webServer.send(200, "text/html", "PROJECT EVE ONLINE");
+
+}
+
 
 // Starts EVE
 void setup() {
@@ -745,8 +796,10 @@ pinMode(TRIG_PIN, OUTPUT);
 pinMode(ECHO_PIN, INPUT);
 pinMode(SELECT_BUTTON, INPUT_PULLUP);
 pinMode(MOVE_BUTTON, INPUT_PULLUP);
+pinMode(RESCAN_BUTTON, INPUT_PULLUP);
 
 Serial.begin(115200);
+connectWiFi();
 
 scanServo.attach(SERVO_PIN);
 scanServo.write(30);
@@ -765,6 +818,7 @@ void loop() {
 
 checkButtons();
 runMode();
+webServer.handleClient();
 
 }
  
