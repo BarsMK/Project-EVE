@@ -33,6 +33,11 @@ EVE currently uses an ESP32 to control an OLED display, ultrasonic sensor, servo
 - Automatic servo return to saved target angle
 - Target distance and angle tracking
 - OLED target-lock interface
+- Dedicated rescan button
+- Scan reset functionality
+- Wi-Fi connectivity
+- ESP32 web server
+- Browser-based monitoring
 
 ## Hardware
 
@@ -63,9 +68,9 @@ Servo + Ultrasonic Sensor
 
 EVE is being developed in stages, with each stage adding another part of the system.
 
-**Current:** Radar scanning and visualization with 1° resolution, fading detections, saved target visualization, target locking, automatic servo targeting, and OLED status/lock interfaces
+**Current:** Radar scanning and visualization with 1° resolution, fading detections, target tracking and locking, rescan functionality, Wi-Fi connectivity, and a basic web server
 
-**Next:** Wi-Fi connectivity, web-based monitoring, final testing, and project polish
+**Next:** Web dashboard, live sensor data, browser-based radar visualization, and project polish.
 
 ## Future Ideas
 
