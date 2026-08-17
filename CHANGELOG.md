@@ -1,5 +1,30 @@
 # Changelog
 
+## Wi-Fi Web Dashboard — August 16, 2026
+
+### Added
+
+- ESP32 Wi-Fi connectivity
+- Built-in web server
+- Browser-based EVE interface
+- Distance information on webpage
+- Servo angle information on webpage
+- Closest-target distance and angle information
+- Initial /data endpoint for future live updates
+
+### Improved
+
+- Project connectivity and remote monitoring
+- EVE system visibility through a browser
+
+### Next
+
+- Automatic webpage updates
+- Browser radar visualization
+- Final testing and polish
+
+
+
 ## Target Lock & Wi-Fi System — August 15, 2026
 
 ### Added
