@@ -777,13 +777,54 @@ Serial.println("WiFi connected");
 Serial.println(WiFi.localIP());
 
 webServer.on("/", handleRoot);
+webServer.on("/data", handleData);
 webServer.begin();
 
 }
 
 void handleRoot() {
+String webpage = "<h1>PROJECT EVE ONLINE</h1>";
 
-webServer.send(200, "text/html", "PROJECT EVE ONLINE");
+webpage += "Distance: ";
+webpage += String(distance, 1);
+webpage += " cm<br>";
+
+webpage += "Angle: ";
+webpage += String(angle);
+webpage += "&deg;<br>";
+
+webpage += "Target: ";
+webpage += String(distancemem, 1);
+webpage += " cm<br>";
+
+webpage += "Target Angle: ";
+webpage += String(anglemem);
+webpage += "&deg;<br>";
+
+webServer.send(200, "text/html", webpage);
+
+}
+
+
+void handleData() {
+
+  String data = "{";
+
+  data += "\"distance\":";
+  data += String(angle);
+
+  data += ",\"angle\":";
+  data += String(angle);
+
+  data += ",\"targetDistance\":";
+  data += String(distancemem, 1);
+
+  data += ",\"targetAngle\":";
+  data += String(anglemem);
+
+  data += "}";
+
+webServer.send(200, "application/json", data);
 
 }
 
