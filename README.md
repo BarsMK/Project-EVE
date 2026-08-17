@@ -1,6 +1,6 @@
 # Project EVE
 
-An ESP32-powered smart assistant device combining sensors, programming, displays, servo control, and automation into one interactive electronics system.
+Project EVE is an ESP32-based scanning and desk-assistant prototype that combines an OLED interface, ultrasonic sensing, servo scanning, target detection, and Wi-Fi connectivity.
 
 <img width="8064" height="6048" alt="IMG_9082" src="https://github.com/user-attachments/assets/e01c219e-c24f-48a9-ae87-eb21c60ff50d" />
 
@@ -27,7 +27,7 @@ EVE currently uses an ESP32 to control an OLED display, ultrasonic sensor, servo
 - Distance-based radar detection sizes
 - 1° scanning
 - 30°-150° scanning range
-- Live system status monitoring
+- Live OLED system status monitoring
 - Saved target visualization
 - Target-lock system
 - Automatic servo return to saved target angle
@@ -37,16 +37,18 @@ EVE currently uses an ESP32 to control an OLED display, ultrasonic sensor, servo
 - Scan reset functionality
 - Wi-Fi connectivity
 - ESP32 web server
-- Browser-based monitoring
+- Browser-based monitoring dashboard
+- Distance, angle, and target information displayed through the web interface
 
 ## Hardware
 
-* ESP32 DevKit
-* 0.96" OLED display
-* HC-SR04 ultrasonic sensor
-* Servo motor
-* Push buttons
-* Breadboard and jumper wires
+- ESP32 DevKit
+- 0.96" OLED display
+- HC-SR04 ultrasonic sensor
+- Servo motor
+- 3 push buttons
+- Breadboard
+- Jumper wires
 
 ## How It Works
 
@@ -60,17 +62,19 @@ Servo + Ultrasonic Sensor
       ESP32 Processing
           ↓
    Angle + Distance Data
-          ↓
-      OLED Radar
+       ↙          ↘
+  OLED Radar    Wi-Fi Server
+                    ↓
+             Browser Dashboard
 ```
 
 ## Progress
 
 EVE is being developed in stages, with each stage adding another part of the system.
 
-**Current:** Radar scanning and visualization with 1° resolution, fading detections, target tracking and locking, rescan functionality, Wi-Fi connectivity, and a basic web server
+**Current:** Radar scanning and visualization with 1° resolution, fading detections, target tracking and locking, rescan functionality, Wi-Fi connectivity, a basic web server, and a browser dashboard displaying sensor and target information.
 
-**Next:** Web dashboard, live sensor data, browser-based radar visualization, and project polish.
+**Next:** Automatic webpage updates, browser-based radar visualization, final testing, and project polish.
 
 ## Future Ideas
 
@@ -89,6 +93,8 @@ Built using:
 * Adafruit GFX
 * Adafruit SSD1306
 * ESP32Servo
+* ESP32 WiFi
+* ESP32 WebServer
 
 ## AI Usage
 
