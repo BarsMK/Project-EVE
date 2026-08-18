@@ -764,6 +764,28 @@ int savedTargetY =
 display.display();
 }
 
+void handleData() {
+
+  String data = "{";
+
+  data += "\"distance\":";
+  data += String(distance, 1);
+
+  data += ",\"angle\":";
+  data += String(angle);
+
+  data += ",\"targetDistance\":";
+  data += String(distancemem, 1);
+
+  data += ",\"targetAngle\":";
+  data += String(anglemem);
+
+  data += "}";
+
+webServer.send(200, "application/json", data);
+
+}
+
 void connectWiFi() {
 WiFi.begin(ssid, password);
 
@@ -783,50 +805,116 @@ webServer.begin();
 }
 
 void handleRoot() {
-String webpage = "<h1>PROJECT EVE ONLINE</h1>";
+String webpage = R"rawliteral(
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Project EVE</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1>
 
-webpage += "Distance: ";
-webpage += String(distance, 1);
-webpage += " cm<br>";
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #111;
+      color: white
+    }
 
-webpage += "Angle: ";
-webpage += String(angle);
-webpage += "&deg;<br>";
+    .box {
+      background: #222;
+      padding: 20px;
+      margin: 15px auto;
+      max-width: 400px;
+      border-radius: 15px;
+    }
 
-webpage += "Target: ";
-webpage += String(distancemem, 1);
-webpage += " cm<br>";
+    h1 {
+      margin-bottom: 25px;
+    }
 
-webpage += "Target Angle: ";
-webpage += String(anglemem);
-webpage += "&deg;<br>";
+    .value {
+      font-size: 24px;
+      margin: 10px;
+    }
+  </style>
+  </head>
+
+  <body>
+
+    <h1>PROJECT EVE</h1>
+
+    <div class= "box">
+
+    <h2>SYSTEM STATUS</h2>
+    <div>ONLINE</div>
+
+    </div>
+
+    <div class="box">
+
+      <h2>SCAN</h2>
+
+      <div class="value">
+      Distance: <span id="distance">--</span> cm
+      </div>
+
+      <div class="value">
+      Angle: <span id="angle">--</span>&deg;
+    </div>
+
+  </div>
+
+  <div class="box">
+
+    <h2>TARGET</h2>
+
+    <div class="value">
+     Distance: <span id="targetDistance">--</span> cm
+    </div>
+
+    <div class="value">
+      Angle: <span id="targetAngle">--</span>&deg;
+    </div>
+
+  </div>
+
+<script>
+
+function updateData() {
+
+  fetch('/data')
+    .then(response => response.json())
+    .then(data => {
+
+      document.getElementById("distance").innerHTML = data.distance;
+
+      document.getElementById("angle").innerHTML = data.angle;
+
+      document.getElementById("targetDistance").innerHTML =
+        data.targetDistance;
+
+      document.getElementById("targetAngle").innerHTML =
+        data.targetAngle;
+
+    });
+
+}
+
+updateData();
+
+setInterval(updateData, 500);
+
+</script>
+
+    </body>
+    </html>
+  )rawliteral";
 
 webServer.send(200, "text/html", webpage);
 
 }
 
-
-void handleData() {
-
-  String data = "{";
-
-  data += "\"distance\":";
-  data += String(angle);
-
-  data += ",\"angle\":";
-  data += String(angle);
-
-  data += ",\"targetDistance\":";
-  data += String(distancemem, 1);
-
-  data += ",\"targetAngle\":";
-  data += String(anglemem);
-
-  data += "}";
-
-webServer.send(200, "application/json", data);
-
-}
 
 
 // Starts EVE
